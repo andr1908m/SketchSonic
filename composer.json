@@ -1,5 +1,18 @@
 {
-	"require-dev" : {
-		"kahlan/kahlan" : "^5.2"
-	}
+    "autoload" : {
+          "psr-4" : {
+                  "InspireFuel\\" : "src/InspireFuel"
+                      },
+                          "files": [
+                                  "src/contracts.php"
+                                      ]
+                                        },
+                                          "autoload-dev" : {
+                                                "psr-4" : {
+                                                        "InspireFuel\\" : "spec/InspireFuel"
+                                                            }
+                                                              },
+                                                                "require-dev" : {
+                                                                      "kahlan/kahlan" : "^5.2"
+                                                                        }
 }
