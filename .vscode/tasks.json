@@ -12,6 +12,15 @@
         "kind": "test",
         "isDefault": true
       }
+    },
+    {
+      "label": "Kahlan Spec w/ coverage",
+      "type": "shell",
+      "command": "XDEBUG_MODE=coverage vendor/bin/kahlan --lcov=coverage/lcov.info",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test"
+      }
     }
   ]
 }
