@@ -14,13 +14,10 @@
       }
     },
     {
-      "label": "Kahlan Spec w/ coverage",
+      "label": "Composer DU",
       "type": "shell",
-      "command": "XDEBUG_MODE=coverage vendor/bin/kahlan --lcov=coverage/lcov.info",
+      "command": "composer du",
       "problemMatcher": [],
-      "group": {
-        "kind": "test"
-      }
-    }
+    },
   ]
 }

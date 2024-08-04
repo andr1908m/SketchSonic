@@ -2,7 +2,7 @@
 
 namespace InspireFuel;
 
-class UID {
+class IdeaNumber {
   function __construct(private $value) {}
   
   function prefix() {

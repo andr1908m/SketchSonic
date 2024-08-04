@@ -6,6 +6,7 @@ use function Kahlan\context;
 use function Kahlan\describe;
 use function Kahlan\expect;
 use function Kahlan\it;
+use function Kahlan\beforeEach;
 
 describe("IdeaFactory", function() {
   beforeEach(function() {
@@ -14,26 +15,36 @@ describe("IdeaFactory", function() {
   
   context("title", function() {
     it("cannot create an idea without a title", function() {
-      $e = captureException(fn() => $this->ideaFactory->make());
-      
-      expect($e->getMessage())
+      expectExceptionMessage(fn() => $this->ideaFactory->make())
         ->toMatch("/^title is required/");
     });
-    
+
+    it("cannot create an idea with null title", function() {
+      expectExceptionMessage(fn() => $this->ideaFactory->make(title:null))
+        ->toMatch("/^title cannot be null/");
+    });
+
     it("cannot create an idea with a title too long", function() {
       $f = $this->ideaFactory;
       
-      $title = str_repeat("a", 256);    
-      expect(captureException(fn() => $f->make(title:$title))->getMessage())
+      $length = 256;
+      expectExceptionMessage(fn() => $f->make(title:str_repeat("a", $length)))
         ->toMatch("/^title is too long, should be max 256 chars/");
       
-      $title = str_repeat("a", 255);
-      expect(fn() => $f->make(title:$title))
+      $length = 255;
+      expect(fn() => $f->make(title:str_repeat("a", $length)))
         ->not->toThrow();
+    });
+
+    it("can obtain value with ->value()", function() {
+      $f = $this->ideaFactory;
+      
+      $idea = $f->make(title:"valid title");
+
+      expect($idea->title())->toBe("valid title");
     });
   });
   
-
   context("type", function() {
     it("creates an idea with a default type of 'Note'", function() {
       $idea = $this->ideaFactory->make(title:"title");
@@ -46,8 +57,8 @@ describe("IdeaFactory", function() {
       expect($f->make("note", "title")->type())->toBe(IdeaType::Note);
       expect($f->make("riff", "title")->type())->toBe(IdeaType::Riff);
   
-      $e = captureException(fn() => $f->make("invalid",title:"title"));
-      expect($e->getMessage())->toMatch("/^must be 'note' or 'riff'/");
+      expectExceptionMessage(fn() => $f->make("invalid", title:"title"))
+        ->toMatch("/^must be 'note' or 'riff', was 'invalid'/");
     });
   });
  
@@ -55,35 +66,41 @@ describe("IdeaFactory", function() {
     it("can create an idea with tags", function() {
       $f = $this->ideaFactory;
       $idea = $f->make(title:"title", tags:["tag1","tag2"]);
-      expect((array)($idea->tags()))->toBe(["tag1","tag2"]);
+      expect(iterator_to_array($idea->tags()))->toBe(["tag1","tag2"]);
+    });
+
+    it("does not include duplicate tags", function() {
+      $f = $this->ideaFactory;
+      $idea = $f->make(title:"title", tags:["tag1","tag1"]);
+      expect(iterator_to_array($idea->tags()))->toBe(["tag1"]);
     });
 
     it("cannot create tags with empty strings or nulls", function() {
       $f = $this->ideaFactory;
       
-      $e = captureException(fn() => 
-          $f->make(title:"title", tags:[null])
-      );
-      expect($e->getMessage())->toMatch('/^all tags are strings/');
+      expectExceptionMessage(fn() => $f->make(title:"title", tags:[null]))
+        ->toMatch('/^all tags are strings/');
       
-      $e = captureException(fn() => 
-          $f->make(title:"title", tags:[""])
-      );
-      expect($e->getMessage())->toMatch("/^no empty tags/");
+      expectExceptionMessage(fn() => $f->make(title:"title", tags:[""]))
+        ->toMatch("/^no empty tag/");
     });
 
     it("cannot create multi word tags", function() {
       $f = $this->ideaFactory;
-      $e = captureException(fn() =>
-          $f->make(title:"title", tags:["first second", "third fourth"])
-      );
-      expect($e->getMessage())->toMatch("/^tags must contain single words/");
+
+      expectExceptionMessage(fn() =>
+        $f->make(title:"title", tags:["first second", "third fourth"]))
+        ->toMatch("/^tag must contain single words/");
     });
   });
   
-  function captureException(callable $callback) {
+  function expectExceptionMessage(callable $throwingCB) {    
+    return expect(captureException($throwingCB)->getMessage());
+  }
+
+  function captureException(callable $throwingCB) {
     try {
-      $callback();
+      $throwingCB();
     } catch (\Exception $e) {
       return $e;
     }
@@ -97,19 +114,23 @@ describe("IdeaFactory", function() {
       expect($idea->createdAt()->getTimestamp())->toBe(0);
     });
   });
-  
-  it("can create an idea with a filename, but it must not be null", function() {
-    expect(fn() => $this->ideaFactory->make(title:"title",filename:null))
-      ->toThrow();
-    
-    $idea = $this->ideaFactory->make(title:"title",filename:"file.txt");
-    expect($idea->filename())->toBe("file.txt");
+
+  context("filename", function() {
+    it("can create an idea with a filename", function() {
+      $idea = $this->ideaFactory->make(title:"title",filename:"file.txt");
+      expect($idea->filename())->toBe("file.txt");
+    });
+
+    it("cannot create an idea with a null filename", function() {
+      expect(fn() => $this->ideaFactory->make(title:"title",filename:null))
+        ->toThrow();
+    });
   });
   
-  it("can create an idea with a valid uid", function() {
+  it("can create an idea with a valid idea number", function() {
     $idea = $this->ideaFactory->make(title: "title");
     
-    $uid = $idea->uid();
+    $uid = $idea->ideaNumber();
     expect($uid->prefix())->toBe("idea_");
     // we use sha256
     expect($uid->value())->toMatch('/[a-f0-9]{64}/'); 
