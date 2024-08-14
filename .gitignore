@@ -1,2 +1,4 @@
-/vendor/
+vendor/
 coverage/lcov.info
+dist/examples/*
+tmp/

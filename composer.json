@@ -1,9 +1,13 @@
 {
   "scripts": {
+    "examples": [
+      "Composer\\Config::disableProcessTimeout",
+      "php -S localhost:3000 -t web/examples/"
+    ],
     "spec": "kahlan",
     "coverage":"XDEBUG_MODE=coverage kahlan --lcov=coverage/lcov.info",
     "analyse":[
-      "phpmd src/ spec/ ansi cleancode,codesize,controversial,design,naming,unusedcode",
+      "phpmd $(cat phpmd.options)",
       "phpstan analyse -c specs.neon",
       "phpstan analyse -c src.neon"
     ]
@@ -27,5 +31,8 @@
     "phpstan/phpstan": "^1.11",
     "phan/phan": "5.x",
     "phpmd/phpmd": "^2.15"
+  },
+  "require": {
+    "zordius/lightncandy": "dev-master"
   }
 }

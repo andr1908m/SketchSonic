@@ -25,14 +25,12 @@ class IdeaFactory {
  }
 
  private function from($value) {
-    verify(
-      in_array($value, ["note", "riff"]), fn() => new InvalidIdeaType($value)
-    );
-    return match ($value) {
-      "note" => IdeaType::Note,
-      "riff" => IdeaType::Riff,
-      default => ensures(true, "all cases handled")
-    };
+    if($value === "note")
+      return IdeaType::Note;
+    elseif($value === "riff")
+      return IdeaType::Riff;
+    else
+      throw new InvalidType($value);
   }
 }
 
