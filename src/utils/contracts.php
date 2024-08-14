@@ -42,14 +42,6 @@ function verify($condition, $callback) {
     throw $callback();
 }
 
-function requires($condition, $message = "", $value = null) {
-  check(PreconditionViolation::class, $condition, $message, $value);
-}
-
-function ensures($condition, $message = "", $value = null) {
-  check(PostconditionViolation::class, $condition, $message, $value);
-}
-
 function invariant($condition, $message = "", $value = null) {
   check(InvariantViolation::class,$condition, $message, $value);
 }
@@ -57,10 +49,4 @@ function invariant($condition, $message = "", $value = null) {
 function check($class, $condition, $message, $value) {
   if(!$condition)
     throw new $class($message,$value);
-}
-
-function checkAll($class, $conditions) {
-  foreach($conditions as $condition) {
-    check($class,...$condition);
-  }
 }
