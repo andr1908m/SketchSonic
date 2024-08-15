@@ -32,7 +32,7 @@
     "phpstan/phpstan": "^1.11",
     "phan/phan": "5.x",
     "phpmd/phpmd": "^2.15",
-    "ext-debug":"*",
+    "ext-xdebug":"*",
     "ext-xml":"*",
     "zordius/lightncandy": "dev-master"
   },
