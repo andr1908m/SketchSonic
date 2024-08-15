@@ -1,6 +1,6 @@
 <?php
 
-namespace InspireFuel;
+namespace SketchSonic;
 
 class Idea {
   public function __construct(

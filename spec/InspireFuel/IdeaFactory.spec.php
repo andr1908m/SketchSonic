@@ -1,6 +1,6 @@
 <?php
 
-namespace InspireFuel;
+namespace SketchSonic;
 
 use function Kahlan\context;
 use function Kahlan\describe;

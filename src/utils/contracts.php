@@ -1,6 +1,6 @@
 <?php
 
-namespace InspireFuel;
+namespace SketchSonic;
 
 trait Contractual {
   function __construct($message, $value) {

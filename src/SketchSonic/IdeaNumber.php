@@ -1,6 +1,6 @@
 <?php
 
-namespace InspireFuel;
+namespace SketchSonic;
 
 class IdeaNumber {
   function __construct(private $value) {}

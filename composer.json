@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "InspireFuel\\": "src/InspireFuel"
+      "SketchSonic\\": "src/SketchSonic"
     },
     "files": [
       "src/utils/contracts.php"
@@ -22,7 +22,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "InspireFuel\\": "spec/InspireFuel"
+      "SketchSonic\\": "spec/SketchSonic"
     }
   },
   "require-dev": {

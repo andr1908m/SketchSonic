@@ -1,6 +1,6 @@
 <?php
 
-namespace InspireFuel;
+namespace SketchSonic;
 
 use DateTime;
 class IdeaFactory {

@@ -1,6 +1,6 @@
 <?php
 
-namespace InspireFuel;
+namespace SketchSonic;
 
 class InvalidType extends \Exception {
   function __construct($value) {
