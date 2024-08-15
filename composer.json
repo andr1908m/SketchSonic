@@ -5,12 +5,13 @@
       "php -S localhost:3000 -t web/examples/"
     ],
     "spec": "kahlan",
-    "coverage":"XDEBUG_MODE=coverage kahlan --lcov=coverage/lcov.info",
-    "analyse":[
+    "coverage": "XDEBUG_MODE=coverage kahlan --lcov=coverage/lcov.info",
+    "analyse": [
       "phpmd $(cat phpmd.options)",
       "phpstan analyse -c specs.neon",
       "phpstan analyse -c src.neon"
-    ]
+    ],
+    "build": "docker build -t sketch-sonic ."
   },
   "autoload": {
     "psr-4": {
@@ -30,9 +31,12 @@
     "phpunit/phpunit": "^11.3",
     "phpstan/phpstan": "^1.11",
     "phan/phan": "5.x",
-    "phpmd/phpmd": "^2.15"
+    "phpmd/phpmd": "^2.15",
+    "ext-debug":"*",
+    "ext-xml":"*",
+    "zordius/lightncandy": "dev-master"
   },
   "require": {
-    "zordius/lightncandy": "dev-master"
+    
   }
 }

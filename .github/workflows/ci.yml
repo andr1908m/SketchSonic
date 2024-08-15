@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: ./install.sh
+
+    - name: Run Static Analysis
+      run: composer analyse
+    
+    - name: Run Specs w/ Coverage
+      run: composer coverage

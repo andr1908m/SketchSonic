@@ -20,17 +20,17 @@ class IdeaFactory {
       title: new Title($title), 
       tags: new HashSet(TagName::class, $tags),
       createdAt: new DateTime("@{$timestamper()}"), 
-      filename:$filename
+      filename: $filename
     );
  }
 
- private function from($value) {
-    if($value === "note")
+ private function from($type) {
+    if($type === "note")
       return IdeaType::Note;
-    elseif($value === "riff")
+    elseif($type === "riff")
       return IdeaType::Riff;
     else
-      throw new InvalidType($value);
+      throw new InvalidType($type);
   }
 }
 
