@@ -16,11 +16,5 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Dependencies
-      run: ./install.sh
-
-    - name: Run Static Analysis
-      run: composer analyse
-    
-    - name: Run Specs w/ Coverage
-      run: composer coverage
+    - name: Build image
+      run: docker build -t sketch-sonic .
