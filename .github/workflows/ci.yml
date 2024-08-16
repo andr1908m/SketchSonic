@@ -16,5 +16,5 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Build image
-      run: docker build -t sketch-sonic .
+    - name: Build for debian
+      run: docker build -t sketch-sonic -f debian.Dockerfile .

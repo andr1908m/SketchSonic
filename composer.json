@@ -11,7 +11,11 @@
       "phpstan analyse -c specs.neon",
       "phpstan analyse -c src.neon"
     ],
-    "build": "docker build -t sketch-sonic ."
+    "build": [
+      "docker build -t sketch-sonic -f debian.Dockerfile .",
+      "docker build -t sketch-sonic -f ubuntu.Dockerfile ."
+    ],
+    "github": "act"
   },
   "autoload": {
     "psr-4": {

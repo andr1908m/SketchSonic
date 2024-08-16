@@ -1,11 +1,10 @@
 FROM ubuntu:latest
-
+ENV USERNAME=example
 WORKDIR /var/www/html
-
 COPY . .
-
-RUN chmod 777 /var/www/html/install.sh
-RUN /var/www/html/install.sh
+RUN /var/www/html/ci.sh
+USER $USERNAME
+RUN composer install
 RUN composer analyse
 RUN composer coverage
 
