@@ -1,5 +1,5 @@
 #!/bin/sh
-USERNAME="example";
+
 
 useradd -m -s /bin/bash "$USERNAME";
 echo "$USERNAME:password" | chpasswd;
